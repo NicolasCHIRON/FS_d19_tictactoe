@@ -1,7 +1,33 @@
 class Game
   attr_accessor :player1, :player2, :player_turn, :my_board
 
-  def initialize (player1, player2)
+  def initialize
+    # On explique le jeu :
+    system("clear")
+    puts " " * 18 + "Bienvenue dans ce jeu du morpion ! \n\n"
+    puts " " * 7 + "Le principe est de faire une ligne de 3 symboles identiques."
+    puts "La sélection de la case à cocher se fait sur le principe du pavé numérique. \n\n"
+    puts " " * 25 + "----+---+----"
+    puts " " * 25 + "| 7 | 8 | 9 | <= exemple"
+    puts " " * 25 + "----+---+----"
+    puts " " * 25 + "| 4 | 5 | 6 |"
+    puts " " * 25 + "----+---+----"
+    puts " " * 25 + "| 1 | 2 | 3 |"
+    puts " " * 25 + "----+---+---- \n\n"
+    puts "Par exemple, pour sélectionner la case en haut à droite , il suffit de taper 9. \n\n"
+    print " " * 8 + "Si vous êtes prêt, appuyer sur 'Entrée' pour continuer :"
+    gets.chomp
+    system("clear")
+
+    # On demande poliment le nom des deux joueurs :
+    puts "Quel est le nom du premier participant ?"
+    print "> "
+    @player1 = gets.chomp.to_s
+    puts "Quel est le nom de son adversaire ?"
+    print "> "
+    @player2 = gets.chomp.to_s
+    puts "Que le meilleur gagne !"
+
     @player1 = Player.new(player1, "X")
     @player2 = Player.new(player2, "O")
     @player_turn = 0
@@ -19,15 +45,15 @@ class Game
   end
 
   def menu
-    #Pour afficher le tableau vide en début de partie.
-    if @player_turn == 1
+    # Affichage du tableau à l'instant t
+    system("clear")
       @my_board.drawboard
-    end
-    #Pour le choix du joueur en fonction des tours de jeu.
+
+    # Pour le choix du joueur en fonction des tours de jeu.
     if @player_turn.odd? == true
-      puts "C'est à #{@player1.name} de jouer. Vous êtes les #{@player1.symbol}, à vous de jouer !"
+      puts "C'est le tour de #{@player1.name}. Vous utilisez les #{@player1.symbol}, à vous de jouer !"
     else
-      puts "C'est à #{@player2.name} de jouer. Vous êtes les #{@player2.symbol}, à vous de jouer !"
+      puts "C'est le tour de #{@player2.name}. Vous utilisez les #{@player2.symbol}, à vous de jouer !"
     end
     puts "Choisissez votre case selon le schéma du pavé numérique :"
   end
@@ -54,14 +80,20 @@ class Game
     write_case
 
     #Affichage du tableau après choix
-    @my_board.drawboard
+    # @my_board.drawboard
+
 
     #Pour vérifier les conditions de victoires
     if victory? == true && @player_turn < 10
-      puts "Félicitations, le joueur #{@player_turn.odd? ? @player1.name : @player2.name} a gagné !"
+      system("clear")
+      puts "Félicitations, le joueur #{@player_turn.odd? ? @player1.name : @player2.name} a gagné ! \n\n"
+      @my_board.drawboard
     elsif victory? == false && @player_turn == 9
-      puts "Match nul, il n'y a pas de gagnant."
+      system("clear")
+      puts "Match nul, il n'y a pas de gagnant.\n\n"
+      @my_board.drawboard
     end
+
   end
 
   def write_case
@@ -73,10 +105,16 @@ class Game
   end
 
   def victory?
-    winning_positions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
-    # check if a winning combination exists for the current player
-    if @my_board.array_board_case[0].state != " " && @my_board.array_board_case[0].state == @my_board.array_board_case[1].state && @my_board.array_board_case[0].state == @my_board.array_board_case[2].state
-    # if winning_positions.any? { |pos| pos.all? { |pos1, pos2, pos3|  @my_board.array_board_case[pos1].state == @my_board.array_board_case[pos2].state && @my_board.array_board_case[pos2].state == @my_board.array_board_case[pos3].state && @my_board.array_board_case[pos1].state != " "} } == true
+    # Condition de victoire = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
+    # Vérifier si une condition de victoire est activée
+    if (@my_board.array_board_case[0].state != " " && @my_board.array_board_case[0].state == @my_board.array_board_case[1].state && @my_board.array_board_case[0].state == @my_board.array_board_case[2].state) ||
+      (@my_board.array_board_case[3].state != " " && @my_board.array_board_case[3].state == @my_board.array_board_case[4].state && @my_board.array_board_case[3].state == @my_board.array_board_case[5].state) ||
+      (@my_board.array_board_case[6].state != " " && @my_board.array_board_case[6].state == @my_board.array_board_case[7].state && @my_board.array_board_case[7].state == @my_board.array_board_case[8].state) ||
+      (@my_board.array_board_case[0].state != " " && @my_board.array_board_case[0].state == @my_board.array_board_case[3].state && @my_board.array_board_case[0].state == @my_board.array_board_case[6].state) ||
+      (@my_board.array_board_case[1].state != " " && @my_board.array_board_case[1].state == @my_board.array_board_case[4].state && @my_board.array_board_case[4].state == @my_board.array_board_case[7].state) ||
+      (@my_board.array_board_case[2].state != " " && @my_board.array_board_case[2].state == @my_board.array_board_case[5].state && @my_board.array_board_case[2].state == @my_board.array_board_case[8].state) ||
+      (@my_board.array_board_case[0].state != " " && @my_board.array_board_case[0].state == @my_board.array_board_case[4].state && @my_board.array_board_case[0].state == @my_board.array_board_case[8].state) ||
+      (@my_board.array_board_case[2].state != " " && @my_board.array_board_case[2].state == @my_board.array_board_case[4].state && @my_board.array_board_case[2].state == @my_board.array_board_case[6].state)
       return true
     else
       return false
@@ -84,7 +122,7 @@ class Game
   end
   
   def restart?
-    puts "Voulez-vous recommencer une partie de ce merveilleux jeu ?"
+    puts "Voulez-vous recommencer une partie de ce merveilleux jeu ? \n\n"
     puts "[y] Oh oui avec grand plaisir !   [n] Laisse-moi tranquille avec ton jeu de merde !"
     print "> "
 
@@ -98,6 +136,10 @@ class Game
     when "y"
       return true
     when "n"
+      system("clear")
+      puts "Ok, et ben reste seul dans ton coin. \n\n\n"
+      puts "Et fais-toi bien chier... \n\n\n"
+      puts "CONNARD !!!!\n\n\n"
       return false
     end
   end

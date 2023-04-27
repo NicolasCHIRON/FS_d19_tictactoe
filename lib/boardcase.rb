@@ -9,6 +9,4 @@ class BoardCase
     return @state
   end
 
-  # Pour pouvoir modifier l'état de la case en fonction des choix des joueurs
-
 end

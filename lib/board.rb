@@ -11,7 +11,7 @@ class Board
     @c1 = BoardCase.new
     @c2 = BoardCase.new
     @c3 = BoardCase.new
-    @array_board_case = [c1, c2, c3, b1, b2, b3, a1, a2, a3,]
+    @array_board_case = [c1, c2, c3, b1, b2, b3, a1, a2, a3]
   end
 
   def array_board_case
@@ -19,13 +19,14 @@ class Board
   end
 
   def drawboard
-    puts "----+---+----"
-    puts "| #{@a1.state} | #{@a2.state} | #{@a3.state} |"
-    puts "----+---+----"
-    puts "| #{@b1.state} | #{@b2.state} | #{@b3.state} |"
-    puts "----+---+----"
-    puts "| #{@c1.state} | #{@c2.state} | #{@c3.state} |"
-    puts "----+---+----"
+    puts " " * 20 + "==== Etat du tableau ===="
+    puts " " * 25 + "----+---+----"
+    puts " " * 25 + "| #{@a1.state} | #{@a2.state} | #{@a3.state} |"
+    puts " " * 25 + "----+---+----"
+    puts " " * 25 + "| #{@b1.state} | #{@b2.state} | #{@b3.state} |"
+    puts " " * 25 + "----+---+----"
+    puts " " * 25 + "| #{@c1.state} | #{@c2.state} | #{@c3.state} |"
+    puts " " * 25 + "----+---+---- \n\n"
   end
 
 
