@@ -10,8 +10,5 @@ class BoardCase
   end
 
   # Pour pouvoir modifier l'état de la case en fonction des choix des joueurs
-  def modif_state(value)
-
-  end
 
 end

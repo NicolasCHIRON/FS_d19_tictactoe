@@ -1,37 +1,35 @@
-require_relative 'player'
-
 class Game
-  attr_accessor :player1, :player2, :player_turn, :array_board_case
+  attr_accessor :player1, :player2, :player_turn, :my_board
 
   def initialize (player1, player2)
     @player1 = Player.new(player1, "X")
     @player2 = Player.new(player2, "O")
-    @player_turn = 1
-    a1 = BoardCase.new
-    a2 = BoardCase.new
-    a3 = BoardCase.new
-    b1 = BoardCase.new
-    b2 = BoardCase.new
-    b3 = BoardCase.new
-    c1 = BoardCase.new
-    c2 = BoardCase.new
-    c3 = BoardCase.new
-    @array_board_case = [a1, a2, a3, b1, b2, b3, c1, c2, c3]
+    @player_turn = 0
+    @my_board = Board.new
     @player_choice ='nil'
   end
 
   def is_still_ongoing?
-    return true
+    @player_turn += 1 
+    if @player_turn < 10 
+      return true
+    else
+      return false
+    end
   end
 
   def menu
+    #Pour afficher le tableau vide en début de partie.
+    if @player_turn == 1
+      @my_board.drawboard
+    end
+    #Pour le choix du joueur en fonction des tours de jeu.
     if @player_turn.odd? == true
       puts "C'est à #{@player1.name} de jouer. Vous êtes les #{@player1.symbol}, à vous de jouer !"
     else
       puts "C'est à #{@player2.name} de jouer. Vous êtes les #{@player2.symbol}, à vous de jouer !"
     end
     puts "Choisissez votre case selon le schéma du pavé numérique :"
-    @player_turn +=1
   end
 
   def menu_choice
@@ -43,33 +41,40 @@ class Game
       break if (1..9).include?(@player_choice) == true
       puts "Merci de vous servir de votre pavé numérique. Veuillez retenter :"
       print "> "
-    
-      #Boucle pour vérifier que l'utilisateur a choisi une case vide
-      while @array_board_case[@player_choice + 1].state == 'nil'
-        puts "Cette case a déjà été choisie, veuillez en sélectionner une autre :"
-      end
     end
+      #Boucle pour vérifier que l'utilisateur a choisi une case vide
+    while (1..9).include?(@player_choice) == false || my_board.array_board_case[@player_choice - 1].state == "X" || my_board.array_board_case[@player_choice - 1].state == "O"
+        puts "Cette case a déjà été choisie, veuillez en sélectionner une autre :"
+        print "> "
+        @player_choice = gets.chomp.to_i
+    end
+
 
     #Code pour écrire dans le tableau le choix de l'utilisateur
     write_case
-    @array_board_case.each{|i| puts "#{i.state}"}
+
+    #Affichage du tableau après choix
+    @my_board.drawboard
+
+    #Pour vérifier les conditions de victoires
+    victory?
   end
 
   def write_case
     if @player_turn.odd? == true
-      @array_board_case[@player_choice + 1].state = @player1.symbol
+      my_board.array_board_case[@player_choice - 1].state = @player1.symbol
     else
-      @array_board_case[@player_choice + 1].state = @player2.symbol
+      my_board.array_board_case[@player_choice - 1].state = @player2.symbol
     end
   end
 
-  # def victory
-  #   if
-  #     return true
-  #   else
-  #     return false
-  #   end
-  # end
+  def victory?
+    if 1 == 1
+      return true
+    else
+      return false
+    end
+  end
 
   def restart?
 

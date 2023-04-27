@@ -11,7 +11,11 @@ class Board
     @c1 = BoardCase.new
     @c2 = BoardCase.new
     @c3 = BoardCase.new
-    @array_board_case = [a1, a2, a3, b1, b2, b3, c1, c2, c3]
+    @array_board_case = [c1, c2, c3, b1, b2, b3, a1, a2, a3,]
+  end
+
+  def array_board_case
+    return @array_board_case
   end
 
   def drawboard

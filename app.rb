@@ -36,13 +36,13 @@ player2 = gets.chomp.to_s
 puts "Que le meilleur gagne !"
 
 my_game = Game.new(player1, player2)
-my_board = Board.new
+
 
 while my_game.is_still_ongoing? == true
-  my_board.drawboard
+
   my_game.menu
   my_game.menu_choice
-  my_board.drawboard
+
 end
 
 my_game.restart?
