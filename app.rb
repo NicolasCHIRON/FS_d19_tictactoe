@@ -25,7 +25,7 @@ puts "----+---+----"
 puts "| 1 | 2 | 3 |"
 puts "----+---+----"
 puts
-puts "Par exemple, pour sélectionner la case au centre, il suffit de taper 5."
+puts "Par exemple, pour sélectionner la case en haut à droite , il suffit de taper 9."
 puts
 puts "Quel est le nom du premier participant ?"
 print "> "
@@ -35,15 +35,16 @@ print "> "
 player2 = gets.chomp.to_s
 puts "Que le meilleur gagne !"
 
+#Incrémentation d'une variable pour continuer à jouer
+wanna_play = true
+while wanna_play == true
+
 my_game = Game.new(player1, player2)
 
-
 while my_game.is_still_ongoing? == true
-
   my_game.menu
   my_game.menu_choice
-
 end
 
-my_game.restart?
-  
+wanna_play = my_game.restart?
+end

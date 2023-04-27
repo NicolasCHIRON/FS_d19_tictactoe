@@ -11,7 +11,7 @@ class Game
 
   def is_still_ongoing?
     @player_turn += 1 
-    if @player_turn < 10 
+    if @player_turn < 10 && victory? == false
       return true
     else
       return false
@@ -57,7 +57,11 @@ class Game
     @my_board.drawboard
 
     #Pour vérifier les conditions de victoires
-    victory?
+    if victory? == true && @player_turn < 10
+      puts "Félicitations, le joueur #{@player_turn.odd? ? @player1.name : @player2.name} a gagné !"
+    elsif victory? == false && @player_turn == 9
+      puts "Match nul, il n'y a pas de gagnant."
+    end
   end
 
   def write_case
@@ -69,14 +73,32 @@ class Game
   end
 
   def victory?
-    if 1 == 1
+    winning_positions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
+    # check if a winning combination exists for the current player
+    if @my_board.array_board_case[0].state != " " && @my_board.array_board_case[0].state == @my_board.array_board_case[1].state && @my_board.array_board_case[0].state == @my_board.array_board_case[2].state
+    # if winning_positions.any? { |pos| pos.all? { |pos1, pos2, pos3|  @my_board.array_board_case[pos1].state == @my_board.array_board_case[pos2].state && @my_board.array_board_case[pos2].state == @my_board.array_board_case[pos3].state && @my_board.array_board_case[pos1].state != " "} } == true
       return true
     else
       return false
     end
   end
-
+  
   def restart?
+    puts "Voulez-vous recommencer une partie de ce merveilleux jeu ?"
+    puts "[y] Oh oui avec grand plaisir !   [n] Laisse-moi tranquille avec ton jeu de merde !"
+    print "> "
 
+    while input = gets.chomp.to_s.downcase
+      break if input == "n" || input == "y"
+      puts "C'est pourtant pas compliqué, il n'y a que deux choix ... Aller, tu peux choisir de nouveau"
+      print "> "
+    end
+
+    case input
+    when "y"
+      return true
+    when "n"
+      return false
+    end
   end
 end
